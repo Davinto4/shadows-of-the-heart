@@ -22,3 +22,4 @@ An interactive novel website built with **Next.js** and **TailwindCSS**.
 ### 1. Install Dependencies
 ```bash
 npm install
+npm run dev
