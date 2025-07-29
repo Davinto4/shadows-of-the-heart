@@ -7,7 +7,9 @@ export default function ChapterPage() {
   const { id } = router.query;
   const chapterId = parseInt(id);
 
+  // Validate and handle chapter range
   const isValid = !isNaN(chapterId) && chapterId >= 1 && chapterId <= 100;
+
   const chapterTitles = [
     "The Return", "Smoke in the Pines", "Her Eyes Again", "Stranger at the Gate", "Whispers in the Wall",
     "Midnight Footsteps", "The Sheriff’s Warning", "Old Scars, New Wounds", "Shadows in the Mirror", "Blood Beneath the Church",
@@ -43,12 +45,13 @@ export default function ChapterPage() {
   }
 
   const chapterTitle = chapterTitles[chapterId - 1] || `Chapter ${chapterId}`;
-  const chapterText = `This is placeholder content for Chapter ${chapterId}: "${chapterTitle}". You can replace this with your full story text later.`;
+  const chapterText = `This is a placeholder for "${chapterTitle}". You’ll soon be reading the full suspense, romance, horror and thrill that only Davinto can deliver. Stay tuned...`;
 
   return (
     <>
       <Head>
         <title>{chapterTitle} - Shadows of the Heart</title>
+        <meta name="description" content={`Read ${chapterTitle} of Shadows of the Heart by Davinto.`} />
       </Head>
 
       <div className="max-w-3xl mx-auto px-4 py-10">
@@ -67,4 +70,4 @@ export default function ChapterPage() {
       </div>
     </>
   );
-      }
+}
