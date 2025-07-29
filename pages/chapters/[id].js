@@ -1,15 +1,14 @@
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function ChapterPage() {
   const router = useRouter();
   const { id } = router.query;
   const chapterId = parseInt(id);
 
-  // Validate and handle chapter range
-  const isValid = !isNaN(chapterId) && chapterId >= 1 && chapterId <= 100;
-
+  const [chapterTitle, setChapterTitle] = useState('');
   const chapterTitles = [
     "The Return", "Smoke in the Pines", "Her Eyes Again", "Stranger at the Gate", "Whispers in the Wall",
     "Midnight Footsteps", "The Sheriff’s Warning", "Old Scars, New Wounds", "Shadows in the Mirror", "Blood Beneath the Church",
@@ -33,34 +32,47 @@ export default function ChapterPage() {
     "Goodbye for Now", "Just One More Breath", "The Wedding Never Came", "Love Among Monsters", "Redemption’s Fire"
   ];
 
-  if (!isValid) {
+  useEffect(() => {
+    if (!isNaN(chapterId) && chapterId >= 1 && chapterId <= 100) {
+      setChapterTitle(chapterTitles[chapterId - 1]);
+    }
+  }, [chapterId]);
+
+  if (isNaN(chapterId) || chapterId < 1 || chapterId > 100) {
     return (
-      <div className="max-w-xl mx-auto px-4 py-10 text-center text-red-400">
+      <div className="min-h-screen bg-black text-white text-center p-10">
         <Head><title>Invalid Chapter</title></Head>
-        <h1 className="text-2xl font-bold mb-4">❌ Invalid Chapter</h1>
-        <p>Chapter not found. Please select a valid chapter.</p>
+        <h1 className="text-2xl font-bold text-red-400 mb-4">❌ Invalid Chapter</h1>
+        <p>This chapter doesn't exist. Please choose another one.</p>
         <Link href="/" className="text-blue-400 underline mt-6 block">← Back to Home</Link>
       </div>
     );
   }
 
-  const chapterTitle = chapterTitles[chapterId - 1] || `Chapter ${chapterId}`;
-  const chapterText = `This is a placeholder for "${chapterTitle}". You’ll soon be reading the full suspense, romance, horror and thrill that only Davinto can deliver. Stay tuned...`;
-
   return (
     <>
       <Head>
         <title>{chapterTitle} - Shadows of the Heart</title>
-        <meta name="description" content={`Read ${chapterTitle} of Shadows of the Heart by Davinto.`} />
       </Head>
 
-      <div className="max-w-3xl mx-auto px-4 py-10">
-        <h1 className="text-3xl font-bold text-blue-400 mb-4">{chapterTitle}</h1>
-        <p className="text-gray-200 leading-relaxed mb-10">{chapterText}</p>
+      {/* ✅ NAVIGATION BAR */}
+      <nav className="bg-gray-900 text-white px-6 py-4 flex justify-center space-x-6 text-sm border-b border-gray-700">
+        <Link href="/" className="hover:text-blue-400">🏠 Home</Link>
+        <Link href="/about" className="hover:text-blue-400">📖 About</Link>
+        <Link href="/contact" className="hover:text-blue-400">📬 Contact</Link>
+        <Link href="#" onClick={() => alert("Support via Access Bank - 1719816647")} className="hover:text-blue-400">❤️ Support</Link>
+      </nav>
 
+      {/* ✅ CHAPTER CONTENT */}
+      <div className="max-w-3xl mx-auto px-4 py-10 text-white">
+        <h1 className="text-3xl font-bold text-blue-400 mb-4">{chapterTitle}</h1>
+        <p className="text-gray-200 leading-relaxed mb-10">
+          This is a placeholder for <strong>{chapterTitle}</strong>. The full story will be available soon. Davinto blends romance, horror, action and suspense in a way that keeps you glued. Stay tuned!
+        </p>
+
+        {/* ✅ NAVIGATION LINKS */}
         <div className="flex justify-between items-center text-sm text-blue-400">
           <Link href="/" className="underline hover:text-blue-300">← Back to Home</Link>
-
           {chapterId < 100 && (
             <Link href={`/chapters/${chapterId + 1}`} className="underline hover:text-blue-300">
               Next Chapter →
@@ -70,4 +82,4 @@ export default function ChapterPage() {
       </div>
     </>
   );
-}
+        }
